@@ -1,0 +1,19 @@
+{
+  "name": "liri-node-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "key.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thayes3116/LIRI-bot.git"
+  },
+  "author": "Timothy Hayes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thayes3116/LIRI-bot/issues"
+  },
+  "homepage": "https://github.com/thayes3116/LIRI-bot#readme"
+}
