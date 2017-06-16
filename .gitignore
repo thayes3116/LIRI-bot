@@ -1,4 +1,4 @@
-node.module
+node.modules
 .DS_Store
 key.js
 spotify_id.js
