@@ -11,7 +11,7 @@ const spotify = new Spotify(spotifyKeys);
 //terminal entry variables
 var action = process.argv[2],
 	userInput,
-	logNumber = 1,
+
 	//require request for omdb
 	request = require("request"),
 
@@ -75,12 +75,14 @@ switch (action) {
 		  	
 		  	for( var i = 0 ; i < tweets.length ; i++){
 		  		console.log("=================================");
-		    	console.log("Tweet Number " + i + " " +tweets[i].text);
+		    	console.log("Tweet Number " + i + ": " +tweets[i].text);
 		    	console.log(tweets[i].created_at);
 		    	console.log("=================================");
 			}
 
 		  	console.log("========================= End of Tweets ============================");
+		  	
+		  	writeFile();
 
 			  if (error){
 			  	throw error;
@@ -134,10 +136,12 @@ switch (action) {
 		    			}
 
 		    			console.log("=================================");  
-		    	}
-	    	}		
+		    	}    			
 	    		console.log("============================== End of Spotify Matches ===================================");
 
+	    	writeFile();
+			}
+				
 		    if (error) {
 		    	throw error;
 		    }
@@ -151,24 +155,26 @@ switch (action) {
 
 		}else{
 
-		request("http://www.omdbapi.com/?t=" + userInput + "&y=&plot=short&apikey=40e9cece", function(error, response, body) {
+			request("http://www.omdbapi.com/?t=" + userInput + "&y=&plot=short&apikey=40e9cece", function(error, response, body) {
 
-			if (!error){
-				console.log(JSON.parse(body));
-				console.log("=====================================");
-				console.log("Title: " + JSON.parse(body).Title);
-				console.log("Year Released: " + JSON.parse(body).Year);
-				console.log("imdbRating: " + JSON.parse(body).imdbRating);
-				console.log("Language: " + JSON.parse(body).Language);
-				console.log("Plot: " + JSON.parse(body).Plot);
-				console.log("Actors: " + JSON.parse(body).Actors);
-				console.log("=====================================");
-			}
-			if (error) {
-		    	throw error;
-		    }
+				if (!error){
+					console.log(JSON.parse(body));
+					console.log("=====================================");
+					console.log("Title: " + JSON.parse(body).Title);
+					console.log("Year Released: " + JSON.parse(body).Year);
+					console.log("imdbRating: " + JSON.parse(body).imdbRating);
+					console.log("Language: " + JSON.parse(body).Language);
+					console.log("Plot: " + JSON.parse(body).Plot);
+					console.log("Actors: " + JSON.parse(body).Actors);
+					console.log("=====================================");
+					
+				writeFile();
+				}
+				if (error) {
+			    	throw error;
+			    }
 
-		});
+			});
 		}
 	}
 
@@ -182,8 +188,27 @@ switch (action) {
   				var split = data.split(",");
   				var action = split[0];
   				userInput = split[1];
-  				fireSpotify();
 
+  				switch (action) {
+					case "my-tweets":
+					case "tweet":
+					case "tweets":
+					case "t":
+						fireTweets();
+						break;
+					case "spotify-this-song":
+					case "spotify":
+					case "spot":
+					case "s":
+						fireSpotify();
+						break;
+					case "movie-this":
+					case "movie":
+					case "movies":
+					case "m":
+						fireMovie();
+						break;
+				}
   			}
 
       		if(err) {
@@ -192,14 +217,23 @@ switch (action) {
       	});
 	}
 
-	//Function to log user commands
+	//Function to log user commands in new log.txt file
 	function writeFile(){
-		logNumber++;
 
-		fs.writeFile("log.txt","Search Number: "+logNumber+"--"+action+" "+userInput , function(err) {
-
-  		if (err) {
-    		return console.log(err);
-  		}
+			
+				if (userInput !== undefined){
+					fs.appendFile("log.txt","Search -- "+action+" "+userInput+"\n", function(err) {
+							if (err) {
+	    						return console.log(err);
+	  						}
+					});
+				}else{
+					fs.appendFile("log.txt","Search -- "+action+"\n", function(err) {
+							if (err) {
+	    						return console.log(err);
+	  						}
+					});
+				}
+	
   	}
 
