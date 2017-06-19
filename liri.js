@@ -158,7 +158,6 @@ switch (action) {
 			request("http://www.omdbapi.com/?t=" + userInput + "&y=&plot=short&apikey=40e9cece", function(error, response, body) {
 
 				if (!error){
-					console.log(JSON.parse(body));
 					console.log("=====================================");
 					console.log("Title: " + JSON.parse(body).Title);
 					console.log("Year Released: " + JSON.parse(body).Year);
