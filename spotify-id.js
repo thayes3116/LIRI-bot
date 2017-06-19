@@ -1,4 +1,3 @@
-console.log("spotify works")
 
 module.exports = {
 	id : "b90a1ac8c73f47aeb823b79feccb0b07",
